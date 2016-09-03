@@ -2,12 +2,20 @@ package gosearch
 
 type openList interface {
 	add(element interface{})
-	get() interface{}
-	peek() interface{}
+	get() (interface{}, error)
+	peek() (interface{}, error)
 	isEmpty() bool
 	size() int
 	clear()
 }
+
+type ErrorOpenList string
+
+func (e ErrorOpenList) Error() string {
+    return string(e)
+}
+
+const emptyError = ErrorOpenList("Empty list")
 
 
 type queue struct {
@@ -18,7 +26,7 @@ func (q *queue) add(element interface{}) {
     q.queue = append(q.queue, element)
 }
 
-func (q *queue) get() interface{} {
+func (q *queue) get() (interface{}, error) {
     if !q.isEmpty() {
         result := q.queue[0]
         if q.size() > 1 {
@@ -26,16 +34,16 @@ func (q *queue) get() interface{} {
         } else {
             q.clear()
         }
-        return result
+        return result, nil
     }
-    return nil
+    return nil, emptyError
 }
 
-func (q *queue) peek() interface{} {
+func (q *queue) peek() (interface{}, error) {
     if !q.isEmpty() {
-        return q.queue[0]
+        return q.queue[0], nil
     } else {
-        return nil
+        return nil, emptyError
     }
 }
 
@@ -61,7 +69,7 @@ func (s *stack) add(element interface{}) {
     s.stack = append(s.stack, element)
 }
 
-func (s *stack) get() interface{} {
+func (s *stack) get() (interface{}, error) {
     if !s.isEmpty() {
         result := s.stack[s.size()-1]
         if s.size() > 1 {
@@ -69,16 +77,16 @@ func (s *stack) get() interface{} {
         } else {
             s.clear()
         }
-        return result
+        return result, nil
     }
-    return nil
+    return nil, emptyError
 }
 
-func (s *stack) peek() interface{} {
+func (s *stack) peek() (interface{}, error) {
     if !s.isEmpty() {
-        return s.stack[s.size()-1]
+        return s.stack[s.size()-1], nil
     } else {
-        return nil
+        return nil, emptyError
     }
 }
 

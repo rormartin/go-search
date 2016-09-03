@@ -34,11 +34,11 @@ func findFirstSolutionAux(initialState State, openList openList, level int) []Ac
     openList.add(initialState)
 
     for !openList.isEmpty() {
-        currentState := openList.get().(State)
-        if currentState.isSolution() {
-            return currentState.getPartialSolution()
+        currentState, _ := openList.get() // never empty
+        if currentState.(State).isSolution() {
+            return currentState.(State).getPartialSolution()
         } else {
-            expand(currentState, openList, visited, level)
+            expand(currentState.(State), openList, visited, level)
         }
     }
     // no solution

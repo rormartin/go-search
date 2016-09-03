@@ -40,9 +40,9 @@ func TestQueuePeek(t *testing.T) {
     }
     
     for i := 0; i < nelem; i++ {
-        e := queue.peek()
-        if e != i {
-            t.Errorf("Error on Peek for element %d : result %d", i, e)
+        elem, error := queue.peek()
+        if error != nil {
+            t.Errorf("Error on Peek for element %d : result %d", i, elem)
         }
         queue.get()
     }
@@ -90,12 +90,12 @@ func TestQueueSequencialAdd(t *testing.T) {
     }
     
     for i := 0; i < nelem; i++ {
-        e := queue.get()
-        if e != i {
-            t.Errorf("Error on Get for element %d : result %d", i, e)
+        elem, err := queue.get()
+        if err != nil {
+            t.Errorf("Error on Get for element %d : result %d", i, elem)
         }
         if queue.size() != nelem - i - 1 {
-            t.Errorf("Wrong size after Get %d", e)
+            t.Errorf("Wrong size after Get %d", elem)
         }
     }
 
@@ -158,9 +158,9 @@ func TestStackPeek(t *testing.T) {
     }
     
     for i := nelem - 1; i >= 0; i-- {
-        e := stack.peek()
-        if e != i {
-            t.Errorf("Error on Peek for element %d : result %d", i, e)
+        elem, err := stack.peek()
+        if err != nil {
+            t.Errorf("Error on Peek for element %d : result %d", i, elem)
         }
         stack.get()
     }
@@ -208,12 +208,12 @@ func TestStackSequencialAdd(t *testing.T) {
     }
     
     for i := nelem-1; i >= 0; i-- {
-        e := stack.get()
-        if e != i {
-            t.Errorf("Error on Get for element %d : result %d", i, e)
+        elem, err := stack.get()
+        if err != nil {
+            t.Errorf("Error on Get for element %d : result %d", i, elem)
         }
         if stack.size() != nelem - (nelem - i) {
-            t.Errorf("Wrong size after Get %d", e)
+            t.Errorf("Wrong size after Get %d", elem)
         }
     }
 
