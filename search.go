@@ -7,15 +7,13 @@ type State interface {
 	isValidAction(action Action) bool
 	getApplicableActions() []Action
 	isSolution() bool
-	copyPartialSolutionFrom(state State)
 	equal(second State) bool
 	addActionToSolution(action Action)
 	getStateLevel() int
 }
 
 type Action interface {
-	Cost() float64
-    InternalRepresentation() interface{}
+	cost() float64
 }
 
 type Heuristic interface {
@@ -23,9 +21,16 @@ type Heuristic interface {
 }
 
 
-type Search interface {
-	FindFirstSolution(initialState State) []Action
-	FindAllSolutions(initialState  State) [][]Action
+// Search mechanism
+
+func SearchBreadthFirst (initialState State) []Action {
+
+    return findFirstSolution(initialState, new(queue))
+}
+
+func SearchDepthFirst(initialState State) [] Action {
+
+    return findFirstSolution(initialState, new(stack))
 }
 
 

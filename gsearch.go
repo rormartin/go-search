@@ -1,6 +1,5 @@
 package gosearch
 
-
 // Generic search for one solution
 func findFirstSolution(initialState State, openList openList) []Action {
     return findFirstSolutionAux(initialState, openList, 0)
