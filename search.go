@@ -1,16 +1,16 @@
 package gosearch
 
 type State interface {
-	ApplyAction(action Action) State
-	GetPartialSolution() []Action
-	GetSolutionCost() float64
-	IsValidAction(action Action) bool
-	GetApplicableActions() []Action
-	IsSolution() bool
-	CopyPartialSolutionFrom(state State)
-	Equal(second State) bool
-	AddActionToSolution(action Action)
-	GetStateLevel() int
+	applyAction(action Action) State
+	getPartialSolution() []Action
+	getSolutionCost() float64
+	isValidAction(action Action) bool
+	getApplicableActions() []Action
+	isSolution() bool
+	copyPartialSolutionFrom(state State)
+	equal(second State) bool
+	addActionToSolution(action Action)
+	getStateLevel() int
 }
 
 type Action interface {
@@ -19,7 +19,7 @@ type Action interface {
 }
 
 type Heuristic interface {
-	HStart(state State) float64
+	hStart(state State) float64
 }
 
 

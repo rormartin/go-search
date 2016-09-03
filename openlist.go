@@ -1,94 +1,95 @@
 package gosearch
 
-type OpenList interface {
-	Add(element interface{})
-	Get() interface{}
-	Peek() interface{}
-	IsEmpty() bool
-	Size() int
-	Clear()
+type openList interface {
+	add(element interface{})
+	get() interface{}
+	peek() interface{}
+	isEmpty() bool
+	size() int
+	clear()
 }
 
 
-type Queue struct {
+type queue struct {
 	queue []interface{}
 }
 
-func (q *Queue) Add(element interface{}) {
+func (q *queue) add(element interface{}) {
     q.queue = append(q.queue, element)
 }
 
-func (q *Queue) Get() interface{} {
-    if !q.IsEmpty() {
+func (q *queue) get() interface{} {
+    if !q.isEmpty() {
         result := q.queue[0]
-        if q.Size() > 1 {
+        if q.size() > 1 {
             q.queue = q.queue[1:]
         } else {
-            q.Clear()
+            q.clear()
         }
         return result
     }
     return nil
 }
 
-func (q *Queue) Peek() interface{} {
-    if !q.IsEmpty() {
+func (q *queue) peek() interface{} {
+    if !q.isEmpty() {
         return q.queue[0]
     } else {
         return nil
     }
 }
 
-func (q *Queue) IsEmpty() bool {
-    return !(q.Size() > 0)
+func (q *queue) isEmpty() bool {
+    return !(q.size() > 0)
 }
 
-func (q *Queue) Size() int {
+func (q *queue) size() int {
     return len(q.queue)
 }
 
-func (q *Queue) Clear() {
+func (q *queue) clear() {
     q.queue = nil
 }
 
+// -- STACK --
 
-type Stack struct {
+type stack struct {
 	stack []interface{}
 }
 
-func (s *Stack) Add(element interface{}) {
+func (s *stack) add(element interface{}) {
     s.stack = append(s.stack, element)
 }
 
-func (s *Stack) Get() interface{} {
-    if !s.IsEmpty() {
-        result := s.stack[s.Size()-1]
-        if s.Size() > 1 {
-            s.stack = s.stack[:s.Size()-1]
+func (s *stack) get() interface{} {
+    if !s.isEmpty() {
+        result := s.stack[s.size()-1]
+        if s.size() > 1 {
+            s.stack = s.stack[:s.size()-1]
         } else {
-            s.Clear()
+            s.clear()
         }
         return result
     }
     return nil
 }
 
-func (s *Stack) Peek() interface{} {
-    if !s.IsEmpty() {
-        return s.stack[s.Size()-1]
+func (s *stack) peek() interface{} {
+    if !s.isEmpty() {
+        return s.stack[s.size()-1]
     } else {
         return nil
     }
 }
 
-func (s *Stack) IsEmpty() bool {
-    return !(s.Size() > 0)
+func (s *stack) isEmpty() bool {
+    return !(s.size() > 0)
 }
 
-func (s *Stack) Size() int {
+func (s *stack) size() int {
     return len(s.stack)
 }
 
-func (s *Stack) Clear() {
+func (s *stack) clear() {
     s.stack = nil
 }

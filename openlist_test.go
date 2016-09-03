@@ -5,8 +5,8 @@ import "testing"
 // -- QUEUE --
 
 func TestQueueEmpty(t *testing.T) {
-    queue := new(Queue)
-    if queue.Size() != 0 {
+    queue := new(queue)
+    if queue.size() != 0 {
         t.Error("Not empty queue")
     }    
 }
@@ -14,13 +14,13 @@ func TestQueueEmpty(t *testing.T) {
 
 func TestQueueAdd(t *testing.T) {
 
-    queue := new(Queue)
-    queue.Add(1)
-    if queue.Size() != 1 {
+    queue := new(queue)
+    queue.add(1)
+    if queue.size() != 1 {
         t.Error("First element not added")
     }
-    queue.Add(2)
-    if queue.Size() != 2 {
+    queue.add(2)
+    if queue.size() != 2 {
         t.Error("Second element not added")
     }
 }
@@ -28,33 +28,33 @@ func TestQueueAdd(t *testing.T) {
 
 func TestQueuePeek(t *testing.T) {
 
-    queue := new(Queue)
+    queue := new(queue)
     nelem := 100
     
     for i := 0; i < nelem; i++ {
-        queue.Add(i)
+        queue.add(i)
     }
 
-    if queue.Size() != nelem {
+    if queue.size() != nelem {
         t.Errorf("Worn size after %d Add", nelem)
     }
     
     for i := 0; i < nelem; i++ {
-        e := queue.Peek()
+        e := queue.peek()
         if e != i {
             t.Errorf("Error on Peek for element %d : result %d", i, e)
         }
-        queue.Get()
+        queue.get()
     }
 }
 
 
 func TestQueueClear(t *testing.T) {
 
-    queue := new(Queue)
-    queue.Add(1)
-    queue.Clear()
-    if queue.Size() != 0 {
+    queue := new(queue)
+    queue.add(1)
+    queue.clear()
+    if queue.size() != 0 {
         t.Error("Sill elements in the queue")
     }
 }
@@ -62,14 +62,14 @@ func TestQueueClear(t *testing.T) {
 
 func TestQueueAddClearAdd(t *testing.T) {
 
-    queue := new(Queue)
-    queue.Add(1)
-    queue.Clear()
-    if queue.Size() != 0 {
+    queue := new(queue)
+    queue.add(1)
+    queue.clear()
+    if queue.size() != 0 {
         t.Error("Sill elements in the queue")
     }
-    queue.Add(2)
-    if queue.Size() != 1 {
+    queue.add(2)
+    if queue.size() != 1 {
         t.Error("No elements added after Clear")
     }
 
@@ -78,28 +78,28 @@ func TestQueueAddClearAdd(t *testing.T) {
 
 func TestQueueSequencialAdd(t *testing.T) {
 
-    queue := new(Queue)
+    queue := new(queue)
 
     nelem := 100
     for i := 0; i < nelem; i++ {
-        queue.Add(i)
+        queue.add(i)
     }
 
-    if queue.Size() != nelem {
+    if queue.size() != nelem {
         t.Errorf("Worn size after %d Add", nelem)
     }
     
     for i := 0; i < nelem; i++ {
-        e := queue.Get()
+        e := queue.get()
         if e != i {
             t.Errorf("Error on Get for element %d : result %d", i, e)
         }
-        if queue.Size() != nelem - i - 1 {
+        if queue.size() != nelem - i - 1 {
             t.Errorf("Wrong size after Get %d", e)
         }
     }
 
-    if !queue.IsEmpty() {
+    if !queue.isEmpty() {
         t.Errorf("Not empty queue after Get %d elements", nelem)
     }    
 
@@ -108,14 +108,14 @@ func TestQueueSequencialAdd(t *testing.T) {
 
 func BenchmarkQueueAddGet(b *testing.B) {
 
-    queue := new(Queue)
+    queue := new(queue)
 
     for i := 0; i < b.N; i++ {
-        queue.Add(i)
+        queue.add(i)
     }
 
     for i := 0; i < b.N; i++ {
-        queue.Get()
+        queue.get()
     }
 
 }
@@ -123,8 +123,8 @@ func BenchmarkQueueAddGet(b *testing.B) {
 // -- STACK --
 
 func TestStackEmpty(t *testing.T) {
-    stack := new(Stack)
-    if stack.Size() != 0 {
+    stack := new(stack)
+    if stack.size() != 0 {
         t.Error("Not empty stack")
     }    
 }
@@ -132,13 +132,13 @@ func TestStackEmpty(t *testing.T) {
 
 func TestStackAdd(t *testing.T) {
 
-    stack := new(Stack)
-    stack.Add(1)
-    if stack.Size() != 1 {
+    stack := new(stack)
+    stack.add(1)
+    if stack.size() != 1 {
         t.Error("First element not added")
     }
-    stack.Add(2)
-    if stack.Size() != 2 {
+    stack.add(2)
+    if stack.size() != 2 {
         t.Error("Second element not added")
     }
 }
@@ -146,33 +146,33 @@ func TestStackAdd(t *testing.T) {
 
 func TestStackPeek(t *testing.T) {
 
-    stack := new(Stack)
+    stack := new(stack)
     nelem := 100
     
     for i := 0; i < nelem; i++ {
-        stack.Add(i)
+        stack.add(i)
     }
 
-    if stack.Size() != nelem {
+    if stack.size() != nelem {
         t.Errorf("Wrong size after %d Add", nelem)
     }
     
     for i := nelem - 1; i >= 0; i-- {
-        e := stack.Peek()
+        e := stack.peek()
         if e != i {
             t.Errorf("Error on Peek for element %d : result %d", i, e)
         }
-        stack.Get()
+        stack.get()
     }
 }
 
 
 func TestStackClear(t *testing.T) {
 
-    stack := new(Stack)
-    stack.Add(1)
-    stack.Clear()
-    if stack.Size() != 0 {
+    stack := new(stack)
+    stack.add(1)
+    stack.clear()
+    if stack.size() != 0 {
         t.Error("Sill elements in the stack")
     }
 }
@@ -180,14 +180,14 @@ func TestStackClear(t *testing.T) {
 
 func TestStackAddClearAdd(t *testing.T) {
 
-    stack := new(Stack)
-    stack.Add(1)
-    stack.Clear()
-    if stack.Size() != 0 {
+    stack := new(stack)
+    stack.add(1)
+    stack.clear()
+    if stack.size() != 0 {
         t.Error("Sill elements in the stack")
     }
-    stack.Add(2)
-    if stack.Size() != 1 {
+    stack.add(2)
+    if stack.size() != 1 {
         t.Error("No elements added after Clear")
     }
 
@@ -196,28 +196,28 @@ func TestStackAddClearAdd(t *testing.T) {
 
 func TestStackSequencialAdd(t *testing.T) {
 
-    stack := new(Stack)
+    stack := new(stack)
 
     nelem := 100
     for i := 0; i < nelem; i++ {
-        stack.Add(i)
+        stack.add(i)
     }
 
-    if stack.Size() != nelem {
+    if stack.size() != nelem {
         t.Errorf("Wrong size after %d Add", nelem)
     }
     
     for i := nelem-1; i >= 0; i-- {
-        e := stack.Get()
+        e := stack.get()
         if e != i {
             t.Errorf("Error on Get for element %d : result %d", i, e)
         }
-        if stack.Size() != nelem - (nelem - i) {
+        if stack.size() != nelem - (nelem - i) {
             t.Errorf("Wrong size after Get %d", e)
         }
     }
 
-    if !stack.IsEmpty() {
+    if !stack.isEmpty() {
         t.Errorf("Not empty queue after Get %d elements", nelem)
     }    
 
@@ -226,14 +226,14 @@ func TestStackSequencialAdd(t *testing.T) {
 
 func BenchmarkStackAddGet(b *testing.B) {
 
-    stack := new(Stack)
+    stack := new(stack)
 
     for i := 0; i < b.N; i++ {
-        stack.Add(i)
+        stack.add(i)
     }
 
     for i := 0; i < b.N; i++ {
-        stack.Get()
+        stack.get()
     }
 
 }

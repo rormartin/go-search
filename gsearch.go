@@ -2,23 +2,23 @@ package gosearch
 
 
 // Generic search for one solution
-func findFirstSolution(initialState State, openList OpenList) []Action {
+func findFirstSolution(initialState State, openList openList) []Action {
     return findFirstSolutionAux(initialState, openList, 0)
 }
 
-// func findAllSolutions(initialState State, openList *OpenList) [][]Action {
+// func findAllSolutions(initialState State, openList *openList) [][]Action {
 // }
 
 
-func expand(state State, openList OpenList, visited []State, limit int) {
+func expand(state State, openList openList, visited []State, limit int) {
 
-    if (limit > 0 && state.GetStateLevel() < limit) || (limit < 1) {
-        actions := state.GetApplicableActions()
+    if (limit > 0 && state.getStateLevel() < limit) || (limit < 1) {
+        actions := state.getApplicableActions()
         for _, action := range actions {
-            newState := state.ApplyAction(action)
+            newState := state.applyAction(action)
             if !contains(visited, newState) {
-                openList.Add(newState)
-                if !newState.IsSolution() {
+                openList.add(newState)
+                if !newState.isSolution() {
                     visited = append(visited, newState)
                 }
             }
@@ -27,17 +27,17 @@ func expand(state State, openList OpenList, visited []State, limit int) {
 }
 
 
-func findFirstSolutionAux(initialState State, openList OpenList, level int) []Action {
+func findFirstSolutionAux(initialState State, openList openList, level int) []Action {
 
     visited := []State{}
 
-    openList.Clear()
-    openList.Add(initialState)
+    openList.clear()
+    openList.add(initialState)
 
-    for !openList.IsEmpty() {
-        currentState := openList.Get().(State)
-        if currentState.IsSolution() {
-            return currentState.GetPartialSolution()
+    for !openList.isEmpty() {
+        currentState := openList.get().(State)
+        if currentState.isSolution() {
+            return currentState.getPartialSolution()
         } else {
             expand(currentState, openList, visited, level)
         }
@@ -49,7 +49,7 @@ func findFirstSolutionAux(initialState State, openList OpenList, level int) []Ac
 
 func contains(ss []State, state State) bool {
     for _, s := range ss {
-        if state.Equal(s) {
+        if state.equal(s) {
             return true
         }
     }
