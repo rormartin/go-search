@@ -218,7 +218,7 @@ func (state numbersState) addActionToSolution(action Action) {
 
 
 func (state numbersState) getStateLevel() int {
-    return len(state.numbers)
+    return len(state.actions)
 }
 
 // to string for the custom action
@@ -294,6 +294,20 @@ func TestNoSolutionB(t *testing.T) {
     }
 }
 
+func TestNoSolutionID(t *testing.T) {
+
+    initState := numbersState {
+        numbers: []int{2,4}, goal: 3, actions: []Action{}}
+
+    solution := SearchIterativeDepth(initState)
+
+    t.Logf("%s -> %s", initState.String(), action2string(solution))
+    
+    if len(solution) != 0 {
+        t.Errorf("Wrong solution for %s", initState.String())
+    }
+}
+
 
 func TestStandardProblem1D(t *testing.T) {
 
@@ -325,11 +339,26 @@ func TestStandardProblem1B(t *testing.T) {
 
 }
 
+func TestStandardProblem1ID(t *testing.T) {
+
+    initState := numbersState {
+        numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
+
+    solution := SearchIterativeDepth(initState)
+
+    t.Logf("%s -> %s", initState.String(), action2string(solution))
+    
+    if len(solution) == 0 {
+        t.Errorf("No solution found for %s", initState.String())
+    }
+
+}
+
 
 func BenchmarkNumbersDepthFirst(b *testing.B) {
 
     initState := numbersState {
-        numbers: []int{2,4,5,10,25,7}, goal: 259, actions: []Action{}}
+        numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
     
     solution := SearchDepthFirst(initState)
@@ -342,10 +371,23 @@ func BenchmarkNumbersDepthFirst(b *testing.B) {
 func BenchmarkNumbersBreadthFirst(b *testing.B) {
 
     initState := numbersState {
-        numbers: []int{2,4,5,10,25,7}, goal: 259, actions: []Action{}}
+        numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
     
     solution := SearchBreadthFirst(initState)
+
+    b.Logf("%s -> %s", initState.String(), action2string(solution))
+
+}
+
+
+func BenchmarkNumbersIterativeDepth(b *testing.B) {
+
+    initState := numbersState {
+        numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
+
+    
+    solution := SearchIterativeDepth(initState)
 
     b.Logf("%s -> %s", initState.String(), action2string(solution))
 

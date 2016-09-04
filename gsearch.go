@@ -2,7 +2,8 @@ package gosearch
 
 // Generic search for one solution
 func findFirstSolution(initialState State, openList openList) []Action {
-    return findFirstSolutionAux(initialState, openList, 0)
+    solution, _ := findFirstSolutionAux(initialState, openList, 0)
+    return solution
 }
 
 // func findAllSolutions(initialState State, openList *openList) [][]Action {
@@ -26,23 +27,25 @@ func expand(state State, openList openList, visited []State, limit int) {
 }
 
 
-func findFirstSolutionAux(initialState State, openList openList, level int) []Action {
+func findFirstSolutionAux(initialState State, openList openList, level int) (solution []Action, maxlevel int) {
 
     visited := []State{}
-
+    var maxl int
+    
     openList.clear()
     openList.add(initialState)
 
     for !openList.isEmpty() {
         currentState, _ := openList.get() // never empty
+        maxl = max(maxl, currentState.(State).getStateLevel())
         if currentState.(State).isSolution() {
-            return currentState.(State).getPartialSolution()
+            return currentState.(State).getPartialSolution(), maxl
         } else {
             expand(currentState.(State), openList, visited, level)
         }
     }
     // no solution
-    return nil
+    return nil, maxl
 }
 
 
@@ -53,4 +56,13 @@ func contains(ss []State, state State) bool {
         }
     }
     return false
+}
+
+
+func max(x, y int) int {
+    if y > x {
+        return y
+    } else {
+        return x
+    }
 }
