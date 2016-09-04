@@ -242,10 +242,11 @@ func TestOneStepD(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4}, goal: 6, actions: []Action{}}
 
-    solution := SearchDepthFirst(initState)
+    solution, stats := SearchDepthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) != 1 {
         t.Errorf("Wrong solution for %s", initState.String())
     }
@@ -256,9 +257,10 @@ func TestOneStepB(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4}, goal: 6, actions: []Action{}}
 
-    solution := SearchBreadthFirst(initState)
+    solution, stats := SearchBreadthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
+    t.Logf("%s", stats.String())
     
     if len(solution) != 1 {
         t.Errorf("Wrong solution for %s", initState.String())
@@ -270,10 +272,11 @@ func TestNoSolutionD(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4}, goal: 3, actions: []Action{}}
 
-    solution := SearchDepthFirst(initState)
+    solution, stats := SearchDepthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) != 0 {
         t.Errorf("Wrong solution for %s", initState.String())
     }
@@ -285,10 +288,11 @@ func TestNoSolutionB(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4}, goal: 3, actions: []Action{}}
 
-    solution := SearchBreadthFirst(initState)
+    solution, stats := SearchBreadthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) != 0 {
         t.Errorf("Wrong solution for %s", initState.String())
     }
@@ -299,9 +303,10 @@ func TestNoSolutionID(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4}, goal: 3, actions: []Action{}}
 
-    solution := SearchIterativeDepth(initState)
+    solution, stats := SearchIterativeDepth(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
+    t.Logf("%s", stats.String())
     
     if len(solution) != 0 {
         t.Errorf("Wrong solution for %s", initState.String())
@@ -314,10 +319,11 @@ func TestStandardProblem1D(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
-    solution := SearchDepthFirst(initState)
+    solution, stats := SearchDepthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) == 0 {
         t.Errorf("No solution found for %s", initState.String())
     }
@@ -329,10 +335,11 @@ func TestStandardProblem1B(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
-    solution := SearchBreadthFirst(initState)
+    solution, stats := SearchBreadthFirst(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) == 0 {
         t.Errorf("No solution found for %s", initState.String())
     }
@@ -344,10 +351,11 @@ func TestStandardProblem1ID(t *testing.T) {
     initState := numbersState {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
-    solution := SearchIterativeDepth(initState)
+    solution, stats := SearchIterativeDepth(initState)
 
     t.Logf("%s -> %s", initState.String(), action2string(solution))
-    
+    t.Logf("%s", stats.String())
+
     if len(solution) == 0 {
         t.Errorf("No solution found for %s", initState.String())
     }
@@ -361,10 +369,10 @@ func BenchmarkNumbersDepthFirst(b *testing.B) {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
     
-    solution := SearchDepthFirst(initState)
+    solution, stats := SearchDepthFirst(initState)
 
     b.Logf("%s -> %s", initState.String(), action2string(solution))
-
+    b.Logf("%s", stats.String())
 }
 
 
@@ -374,10 +382,10 @@ func BenchmarkNumbersBreadthFirst(b *testing.B) {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
     
-    solution := SearchBreadthFirst(initState)
+    solution, stats := SearchBreadthFirst(initState)
 
     b.Logf("%s -> %s", initState.String(), action2string(solution))
-
+    b.Logf("%s", stats.String())
 }
 
 
@@ -387,8 +395,8 @@ func BenchmarkNumbersIterativeDepth(b *testing.B) {
         numbers: []int{2,4,5,10,25,7}, goal: 1811, actions: []Action{}}
 
     
-    solution := SearchIterativeDepth(initState)
+    solution, stats := SearchIterativeDepth(initState)
 
     b.Logf("%s -> %s", initState.String(), action2string(solution))
-
+    b.Logf("%s", stats.String())
 }
