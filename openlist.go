@@ -1,7 +1,19 @@
 package gosearch
 
+import "sort"
+
 type openList interface {
 	add(element interface{})
+	get() (interface{}, error)
+	peek() (interface{}, error)
+	isEmpty() bool
+	size() int
+	clear()
+}
+
+
+type priorityOpenList interface {
+	add(element interface{}, sortValue float64)
 	get() (interface{}, error)
 	peek() (interface{}, error)
 	isEmpty() bool
@@ -101,3 +113,76 @@ func (s *stack) size() int {
 func (s *stack) clear() {
     s.stack = nil
 }
+
+
+// -- SORTED open list
+
+type floatPriorityList struct {
+    list []interface{}
+    values []float64
+}
+
+
+// add just one element, manual sort (O(n) peer new element)
+func (l *floatPriorityList) add (element interface{}, sortValue float64) {
+
+    l.list = append(l.list, element)
+    l.values = append(l.values, sortValue)
+
+    sort.Sort(floatPriorityList(*l))
+}
+
+
+func (l *floatPriorityList) get() (interface{}, error) {
+    if !l.isEmpty() {
+        result := l.list[0]
+        if l.size() > 1 {
+            l.list = l.list[1:]
+            l.values = l.values[1:]
+        } else {
+            l.clear()
+        }
+        return result, nil
+    }
+    return nil, emptyError
+}
+
+
+func (l *floatPriorityList) peek() (interface{}, error) {
+    if !l.isEmpty() {
+        return l.list[0], nil
+    } else {
+        return nil, emptyError
+    }
+}
+
+
+func (l *floatPriorityList) isEmpty() bool {
+    return !(l.size() > 0)
+}
+
+func (l *floatPriorityList) size() int {
+    return len(l.list)
+}
+
+func (l *floatPriorityList) clear() {
+    l.list = nil
+    l.values = nil
+}
+
+// sort Interface
+
+func (l floatPriorityList) Len() int {
+    return l.size()
+}
+
+func (l floatPriorityList) Less(i, j int) bool {
+    return l.values[i] < l.values[j]
+}
+
+func (l floatPriorityList) Swap(i, j int) {
+    l.list[i], l.list[j] = l.list[j], l.list[i]
+    l.values[i], l.values[j] = l.values[j], l.values[i]
+}
+
+

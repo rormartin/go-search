@@ -237,3 +237,142 @@ func BenchmarkStackAddGet(b *testing.B) {
     }
 
 }
+
+
+
+// -- PRIORITY LIST
+
+func TestProrityListEmpty(t *testing.T) {
+    plist := new(floatPriorityList)
+    if plist.size() != 0 {
+        t.Error("Not empty stack")
+    }    
+}
+
+
+func TestProrityListAdd(t *testing.T) {
+
+    plist := new(floatPriorityList)
+    plist.add(1, 1.0)
+    if plist.size() != 1 {
+        t.Error("First element not added")
+    }
+    plist.add(2, 2.0)
+    if plist.size() != 2 {
+        t.Error("Second element not added")
+    }
+}
+
+
+func TestProrityListPeek(t *testing.T) {
+
+    plist := new(floatPriorityList)
+    nelem := 100
+    
+    for i := 0; i < nelem; i++ {
+        plist.add(i, float64(i))
+    }
+
+    if plist.size() != nelem {
+        t.Errorf("Wrong size after %d Add", nelem)
+    }
+    
+    for i := nelem - 1; i >= 0; i-- {
+        elem, err := plist.peek()
+        if err != nil {
+            t.Errorf("Error on Peek for element %d : result %d", i, elem)
+        }
+        plist.get()
+    }
+}
+
+
+func TestProrityListClear(t *testing.T) {
+
+    plist := new(floatPriorityList)
+    plist.add(1, 1.0)
+    plist.clear()
+    if plist.size() != 0 {
+        t.Error("Sill elements in the stack")
+    }
+}
+
+
+func TestProrityListSort(t *testing.T) {
+
+    plist := new(floatPriorityList)
+    plist.add(3, 3.3)
+    plist.add(2, 2.2)
+    plist.add(1, 1.1)
+    plist.add(5, 5.5)
+    plist.add(4, 4.4)
+
+    vs := []int{1,2,3,4,5}
+    for _, v := range vs {
+        vl, err := plist.get()
+        if err != nil || vl != v {
+            t.Errorf("Error trying to extract value %d: %d obtained", v, vl)
+        }
+    }
+}
+
+
+func TestProrityListAddClearAdd(t *testing.T) {
+
+    plist := new(floatPriorityList)
+    plist.add(1, 1.0)
+    plist.clear()
+    if plist.size() != 0 {
+        t.Error("Sill elements in the stack")
+    }
+    plist.add(2, 2.0)
+    if plist.size() != 1 {
+        t.Error("No elements added after Clear")
+    }
+
+}
+
+
+func TestProrityListSequencialAdd(t *testing.T) {
+
+    plist := new(floatPriorityList)
+
+    nelem := 100
+    for i := 0; i < nelem; i++ {
+        plist.add(i, float64(i))
+    }
+
+    if plist.size() != nelem {
+        t.Errorf("Wrong size after %d Add", nelem)
+    }
+    
+    for i := nelem-1; i >= 0; i-- {
+        elem, err := plist.get()
+        if err != nil {
+            t.Errorf("Error on Get for element %d : result %d", i, elem)
+        }
+        if plist.size() != nelem - (nelem - i) {
+            t.Errorf("Wrong size after Get %d", elem)
+        }
+    }
+
+    if !plist.isEmpty() {
+        t.Errorf("Not empty priority list after Get %d elements", nelem)
+    }    
+
+}
+
+
+func BenchmarkProrityListAddGet(b *testing.B) {
+
+    plist := new(floatPriorityList)
+
+    for i := 0; i < b.N; i++ {
+        plist.add(i, float64(i))
+    }
+
+    for i := 0; i < b.N; i++ {
+        plist.get()
+    }
+
+}
