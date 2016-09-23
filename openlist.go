@@ -120,21 +120,26 @@ func (s *stack) clear() {
 type floatPriorityList struct {
     list []interface{}
     values []float64
+    sorted bool	
 }
 
 
-// add just one element, manual sort (O(n) peer new element)
+// don't short in add, short in get
 func (l *floatPriorityList) add (element interface{}, sortValue float64) {
 
     l.list = append(l.list, element)
     l.values = append(l.values, sortValue)
-
-    sort.Sort(floatPriorityList(*l))
+    l.sorted = false	
 }
 
 
+// order the list on get calls
 func (l *floatPriorityList) get() (interface{}, error) {
     if !l.isEmpty() {
+        if !l.sorted {		
+	    sort.Sort(floatPriorityList(*l))
+	    l.sorted = true
+	}
         result := l.list[0]
         if l.size() > 1 {
             l.list = l.list[1:]
