@@ -20,7 +20,7 @@ type Action interface {
 }
 
 type Heuristic interface {
-	hStart(state State) float64
+	heuristic() float64
 }
 
 type Statistics struct {
@@ -79,6 +79,12 @@ func SearchIterativeDepth(initial State) ([]Action, Statistics) {
     }
 
     return solution, stats
+}
+
+
+func SearchAstar(initialState State) ([]Action, Statistics) {
+
+    return findFirstSolutionAstar(initialState, new(floatPriorityList))
 }
 
 
