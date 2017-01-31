@@ -134,7 +134,7 @@ func (state numbersState) GetPartialSolution() []Action {
 }
 
 func (state numbersState) GetSolutionCost() float64 {
-	var result float64 = 0.0
+	var result float64 
 	for _, act := range state.actions {
 		result += act.Cost()
 	}
@@ -196,7 +196,7 @@ func (state numbersState) Equal(second State) bool {
 	numbers2 := state2.numbers
 	sort.Ints(numbers2)
 
-	for i, _ := range numbers1 {
+	for i := range numbers1 {
 		if numbers1[i] != numbers2[i] {
 			return false
 		}
