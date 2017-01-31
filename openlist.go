@@ -95,7 +95,7 @@ func (s *stack) get() (interface{}, error) {
 func (s *stack) peek() (interface{}, error) {
 	if !s.isEmpty() {
 		return s.stack[s.size()-1], nil
-	} 
+	}
 	return nil, emptyError
 }
 
@@ -149,7 +149,7 @@ func (l *floatPriorityList) get() (interface{}, error) {
 func (l *floatPriorityList) peek() (interface{}, error) {
 	if !l.isEmpty() {
 		return l.list[0], nil
-	} 
+	}
 	return nil, emptyError
 }
 

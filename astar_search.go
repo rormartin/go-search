@@ -43,7 +43,7 @@ func findFirstSolutionAstarAux(initialState State, openList priorityOpenList, le
 			stats.Solutions++
 			stats.MaxDepth = max(stats.MaxDepth, maxl)
 			return currentState.(State).GetPartialSolution(), maxl, stats
-		} 
+		}
 		expandAstar(currentState.(State), openList, visited, level, &stats)
 	}
 	// no solution

@@ -134,7 +134,7 @@ func (state numbersState) GetPartialSolution() []Action {
 }
 
 func (state numbersState) GetSolutionCost() float64 {
-	var result float64 
+	var result float64
 	for _, act := range state.actions {
 		result += act.Cost()
 	}
