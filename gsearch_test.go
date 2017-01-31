@@ -153,12 +153,12 @@ func (state numbersState) GetApplicableActions() []Action {
 			n2 := state.numbers[i2]
 
 			allActions := []numberAction{
-				numberAction{n1: n1, n2: n2, op: sum},
-				numberAction{n1: n1, n2: n2, op: sub},
-				numberAction{n1: n2, n2: n1, op: sub},
-				numberAction{n1: n1, n2: n2, op: mul},
-				numberAction{n1: n1, n2: n2, op: div},
-				numberAction{n1: n2, n2: n1, op: div},
+				{n1: n1, n2: n2, op: sum},
+				{n1: n1, n2: n2, op: sub},
+				{n1: n2, n2: n1, op: sub},
+				{n1: n1, n2: n2, op: mul},
+				{n1: n1, n2: n2, op: div},
+				{n1: n2, n2: n1, op: div},
 			}
 
 			for _, act := range allActions {
