@@ -2,7 +2,7 @@ package gosearch
 
 import "strconv"
 
-// Basic state represtation for search algorithms
+// State is a basic state represtation for search algorithms
 type State interface {
 
 	// For and input action, the function generates a new state with
@@ -41,16 +41,19 @@ type State interface {
 	String() string
 }
 
+// Action interface to represent the cost of an action
 type Action interface {
 	// represents the float cost for an Action
 	Cost() float64
 }
 
+// Heuristic interface to represente the heuristic value for a state
 type Heuristic interface {
 	// the heuristic evaluation for a state
 	Heuristic() float64
 }
 
+// Statistics information about the state space explored by the search
 type Statistics struct {
 	NodesExplored   int
 	NodesDuplicated int
@@ -72,37 +75,39 @@ func (stats Statistics) String() string {
 
 // Search mechanism
 
-// A basic search without domain information BreadthFirst search algorithm
-// (https://en.wikipedia.org/wiki/Breadth-first_search)
-// to search the solution for a initial state provided.
-// The initial state of the problem must be provided and as result
-// the algorithm returns the list of solution action (if the problem
-// as solution) and a basic statistics about the nodes explored,
-// duplicate nodes and the maximum depth explored.
+// SearchBreadthFirst is a basic search without domain information
+// BreadthFirst search algorithm
+// (https://en.wikipedia.org/wiki/Breadth-first_search) to search the
+// solution for a initial state provided.  The initial state of the
+// problem must be provided and as result the algorithm returns the
+// list of solution action (if the problem as solution) and a basic
+// statistics about the nodes explored, duplicate nodes and the
+// maximum depth explored.
 func SearchBreadthFirst(initialState State) ([]Action, Statistics) {
 
 	return findFirstSolution(initialState, new(queue))
 }
 
-// A basic search without domain information Depth search algorithm
-// (https://en.wikipedia.org/wiki/Depth-first_search)
-// to search the solution for a initial state provided.
-// The initial state of the problem must be provided and as result
-// the algorithm returns the list of solution action (if the problem
-// as solution) and a basic statistics about the nodes explored,
-// duplicate nodes and the maximum depth explored.
+// SearchDepthFirst is a basic search without domain information Depth
+// search algorithm (https://en.wikipedia.org/wiki/Depth-first_search)
+// to search the solution for a initial state provided.  The initial
+// state of the problem must be provided and as result the algorithm
+// returns the list of solution action (if the problem as solution)
+// and a basic statistics about the nodes explored, duplicate nodes
+// and the maximum depth explored.
 func SearchDepthFirst(initialState State) ([]Action, Statistics) {
 
 	return findFirstSolution(initialState, new(stack))
 }
 
-// A basic search without domain information Iterative Depth search algorithm
+// SearchIterativeDepth is a basic search without domain information
+// Iterative Depth search algorithm
 // (https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search)
-// to search the solution for a initial state provided.
-// For each iteration, the depth in the search is incremented in 1 level.
-// The initial state of the problem must be provided and as result
-// the algorithm returns the list of solution action (if the problem
-// as solution) and a basic statistics about the nodes explored,
+// to search the solution for a initial state provided.  For each
+// iteration, the depth in the search is incremented in 1 level.  The
+// initial state of the problem must be provided and as result the
+// algorithm returns the list of solution action (if the problem as
+// solution) and a basic statistics about the nodes explored,
 // duplicate nodes and the maximum depth explored.
 func SearchIterativeDepth(initial State) ([]Action, Statistics) {
 
@@ -116,7 +121,7 @@ func SearchIterativeDepth(initial State) ([]Action, Statistics) {
 	for len(solution) == 0 {
 		solution, maxDepth, statistics =
 			findFirstSolutionAux(initial, new(stack), depth)
-		// agregate stats
+		// aggregate stats
 		stats.NodesExplored += statistics.NodesExplored
 		stats.NodesDuplicated += statistics.NodesDuplicated
 		stats.MaxDepth = max(stats.MaxDepth, maxDepth)

@@ -20,6 +20,7 @@ type priorityOpenList interface {
 	clear()
 }
 
+// ErrorOpenList error for the open list management
 type ErrorOpenList string
 
 func (e ErrorOpenList) Error() string {
@@ -52,9 +53,8 @@ func (q *queue) get() (interface{}, error) {
 func (q *queue) peek() (interface{}, error) {
 	if !q.isEmpty() {
 		return q.queue[0], nil
-	} else {
-		return nil, emptyError
 	}
+	return nil, emptyError
 }
 
 func (q *queue) isEmpty() bool {
@@ -95,9 +95,8 @@ func (s *stack) get() (interface{}, error) {
 func (s *stack) peek() (interface{}, error) {
 	if !s.isEmpty() {
 		return s.stack[s.size()-1], nil
-	} else {
-		return nil, emptyError
 	}
+	return nil, emptyError
 }
 
 func (s *stack) isEmpty() bool {
@@ -150,9 +149,8 @@ func (l *floatPriorityList) get() (interface{}, error) {
 func (l *floatPriorityList) peek() (interface{}, error) {
 	if !l.isEmpty() {
 		return l.list[0], nil
-	} else {
-		return nil, emptyError
 	}
+	return nil, emptyError
 }
 
 func (l *floatPriorityList) isEmpty() bool {

@@ -44,9 +44,8 @@ func findFirstSolutionAux(initialState State, openList openList, level int) (sol
 			stats.Solutions++
 			stats.MaxDepth = max(stats.MaxDepth, maxl)
 			return currentState.(State).GetPartialSolution(), maxl, stats
-		} else {
-			expand(currentState.(State), openList, visited, level, &stats)
 		}
+		expand(currentState.(State), openList, visited, level, &stats)
 	}
 	// no solution
 	stats.MaxDepth = max(stats.MaxDepth, maxl)
@@ -65,7 +64,6 @@ func contains(ss []State, state State) bool {
 func max(x, y int) int {
 	if y > x {
 		return y
-	} else {
-		return x
 	}
+	return x
 }

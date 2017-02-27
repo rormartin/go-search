@@ -134,7 +134,7 @@ func (state numbersState) GetPartialSolution() []Action {
 }
 
 func (state numbersState) GetSolutionCost() float64 {
-	var result float64 = 0.0
+	var result float64
 	for _, act := range state.actions {
 		result += act.Cost()
 	}
@@ -153,12 +153,12 @@ func (state numbersState) GetApplicableActions() []Action {
 			n2 := state.numbers[i2]
 
 			allActions := []numberAction{
-				numberAction{n1: n1, n2: n2, op: sum},
-				numberAction{n1: n1, n2: n2, op: sub},
-				numberAction{n1: n2, n2: n1, op: sub},
-				numberAction{n1: n1, n2: n2, op: mul},
-				numberAction{n1: n1, n2: n2, op: div},
-				numberAction{n1: n2, n2: n1, op: div},
+				{n1: n1, n2: n2, op: sum},
+				{n1: n1, n2: n2, op: sub},
+				{n1: n2, n2: n1, op: sub},
+				{n1: n1, n2: n2, op: mul},
+				{n1: n1, n2: n2, op: div},
+				{n1: n2, n2: n1, op: div},
 			}
 
 			for _, act := range allActions {
@@ -196,7 +196,7 @@ func (state numbersState) Equal(second State) bool {
 	numbers2 := state2.numbers
 	sort.Ints(numbers2)
 
-	for i, _ := range numbers1 {
+	for i := range numbers1 {
 		if numbers1[i] != numbers2[i] {
 			return false
 		}
