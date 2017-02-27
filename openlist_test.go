@@ -2,12 +2,37 @@ package gosearch
 
 import "testing"
 
+// -- ERROR --
+
+func TestOpenListError(t *testing.T) {
+	error := ErrorOpenList("test_error")
+	if error.Error() != "test_error" {
+		t.Error("Error creating list error")
+	}
+}
+
 // -- QUEUE --
 
 func TestQueueEmpty(t *testing.T) {
 	queue := new(queue)
 	if queue.size() != 0 {
 		t.Error("Not empty queue")
+	}
+}
+
+func TestQueueEmptyGet(t *testing.T) {
+	queue := new(queue)
+	_, error := queue.get()
+	if error == nil {
+		t.Error("Not error in get for empty queue")
+	}
+}
+
+func TestQueueEmptyPeek(t *testing.T) {
+	queue := new(queue)
+	_, error := queue.peek()
+	if error == nil {
+		t.Error("Not error in peek for empty queue")
 	}
 }
 
@@ -123,6 +148,22 @@ func TestStackEmpty(t *testing.T) {
 	}
 }
 
+func TestStackEmptyGet(t *testing.T) {
+	stack := new(stack)
+	_, error := stack.get()
+	if error == nil {
+		t.Error("Not error in get for empty stack")
+	}
+}
+
+func TestStackEmptyPeek(t *testing.T) {
+	stack := new(stack)
+	_, error := stack.peek()
+	if error == nil {
+		t.Error("Not error in peek for empty stack")
+	}
+}
+
 func TestStackAdd(t *testing.T) {
 
 	stack := new(stack)
@@ -232,6 +273,22 @@ func TestProrityListEmpty(t *testing.T) {
 	plist := new(floatPriorityList)
 	if plist.size() != 0 {
 		t.Error("Not empty stack")
+	}
+}
+
+func TestPriorityListEmptyGet(t *testing.T) {
+	plist := new(floatPriorityList)
+	_, error := plist.get()
+	if error == nil {
+		t.Error("Not error in get for empty PriorityList")
+	}
+}
+
+func TestPriorityListEmptyPeek(t *testing.T) {
+	plist := new(floatPriorityList)
+	_, error := plist.peek()
+	if error == nil {
+		t.Error("Not error in peek for empty PriorityList")
 	}
 }
 

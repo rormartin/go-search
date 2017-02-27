@@ -45,3 +45,4 @@ initial state of the problem must be provided and as result the algorithm
 returns the list of solution action (if the problem as solution) and a basic
 statistics about the nodes explored, duplicate nodes and the maximum depth
 explored.
+
