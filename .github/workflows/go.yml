@@ -26,6 +26,9 @@ jobs:
       run: make test
       env:
         TEST_OPTIONS: '-v'
+    - name: Run test with code coverage
+      run: |
+        go test -race -covermode atomic -coverprofile=covprofile ./...
     - name: Install goveralls
       run: go install github.com/mattn/goveralls@latest
     - name: Send coverage
