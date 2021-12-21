@@ -1,0 +1,38 @@
+name: Go
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+
+  test:
+    name: test execution
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        stable: 'false'
+        go-version: '1.18.0-beta1'
+    - name: Test
+      run: make test
+      env:
+        TEST_OPTIONS: '-v'
+    - name: Run test with code coverage
+      run: |
+        go test -race -covermode atomic -coverprofile=covprofile ./...
+    - name: Install goveralls
+      run: go install github.com/mattn/goveralls@latest
+    - name: Send coverage
+      env:
+        COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: goveralls -coverprofile=covprofile -service=github
+

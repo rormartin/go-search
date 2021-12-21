@@ -1,5 +1,4 @@
 # go-search
-[![Build Status](https://travis-ci.org/rormartin/gosearch.svg?branch=develop)](https://travis-ci.org/rormartin/gosearch)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rormartin/go-search)](https://goreportcard.com/report/github.com/rormartin/go-search)
 [![Coverage Status](https://coveralls.io/repos/github/rormartin/gosearch/badge.svg?branch=master)](https://coveralls.io/github/rormartin/gosearch?branch=master)
 
