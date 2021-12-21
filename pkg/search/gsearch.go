@@ -55,32 +55,16 @@ func findFirstSolutionAux(initialState State, openList openlist.OpenList[State],
 
 	for !openList.IsEmpty() {
 		currentState, _ := openList.Get() // never empty
-		maxl = max(maxl, currentState.(State).GetStateLevel())
+		maxl = max(maxl, currentState.GetStateLevel())
 		stats.NodesExplored++
-		if currentState.(State).IsSolution() {
+		if currentState.IsSolution() {
 			stats.Solutions++
 			stats.MaxDepth = max(stats.MaxDepth, maxl)
-			return currentState.(State).GetPartialSolution(), maxl, stats
+			return currentState.GetPartialSolution(), maxl, stats
 		}
-		expand(currentState.(State), openList, visited, level, &stats)
+		expand(currentState, openList, visited, level, &stats)
 	}
 	// no solution
 	stats.MaxDepth = max(stats.MaxDepth, maxl)
 	return nil, maxl, stats
-}
-
-func contains(ss []State, state State) bool {
-	for _, s := range ss {
-		if state.Equal(s) {
-			return true
-		}
-	}
-	return false
-}
-
-func max(x, y int) int {
-	if y > x {
-		return y
-	}
-	return x
 }

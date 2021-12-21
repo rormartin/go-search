@@ -31,7 +31,7 @@ func expandAstar(state State, openList openlist.PriorityOpenList[State], visited
 			newState := state.ApplyAction(action)
 			if !contains(visited, newState) {
 				openList.Add(newState,
-					newState.GetSolutionCost()+newState.(Heuristic).Heuristic())
+					newState.GetSolutionCost()+newState.Heuristic())
 				if !newState.IsSolution() {
 					visited = append(visited, newState)
 				}
@@ -50,18 +50,18 @@ func findFirstSolutionAstarAux(initialState State, openList openlist.PriorityOpe
 
 	openList.Clear()
 	openList.Add(initialState,
-		initialState.GetSolutionCost()+initialState.(Heuristic).Heuristic())
+		initialState.GetSolutionCost()+initialState.Heuristic())
 
 	for !openList.IsEmpty() {
 		currentState, _ := openList.Get() // never empty
-		maxl = max(maxl, currentState.(State).GetStateLevel())
+		maxl = max(maxl, currentState.GetStateLevel())
 		stats.NodesExplored++
-		if currentState.(State).IsSolution() {
+		if currentState.IsSolution() {
 			stats.Solutions++
 			stats.MaxDepth = max(stats.MaxDepth, maxl)
-			return currentState.(State).GetPartialSolution(), maxl, stats
+			return currentState.GetPartialSolution(), maxl, stats
 		}
-		expandAstar(currentState.(State), openList, visited, level, &stats)
+		expandAstar(currentState, openList, visited, level, &stats)
 	}
 	// no solution
 	stats.MaxDepth = max(stats.MaxDepth, maxl)

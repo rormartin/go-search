@@ -53,6 +53,9 @@ type State interface {
 	// Returns the depth in the search tree of the current state
 	GetStateLevel() int
 
+	// the heuristic evaluation for a state
+	Heuristic() float64
+
 	// Default string representation (mainly for debug)
 	String() string
 }
@@ -61,12 +64,6 @@ type State interface {
 type Action interface {
 	// represents the float cost for an Action
 	Cost() float64
-}
-
-// Heuristic interface to represente the heuristic value for a state
-type Heuristic interface {
-	// the heuristic evaluation for a state
-	Heuristic() float64
 }
 
 // Statistics information about the state space explored by the search
