@@ -28,8 +28,9 @@ jobs:
       env:
         TEST_OPTIONS: '-v'
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Code coverage to Coveralls
+      run: |
+        go get golang.org/x/tools/cmd/cover
+        go get github.com/mattn/goveralls
+        $HOME/gopath/bin/goveralls -service=github
 
