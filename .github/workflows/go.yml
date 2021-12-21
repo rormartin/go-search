@@ -32,5 +32,5 @@ jobs:
       run: |
         go get golang.org/x/tools/cmd/cover
         go install github.com/mattn/goveralls
-        goveralls -service=github
+        $HOME/gopath/bin/goveralls -service=github
 
