@@ -15,76 +15,7 @@ package search
 
 import (
 	"github.com/rormartin/gosearch/internal/pkg/openlist"
-	"strconv"
 )
-
-// State is a basic state represtation for search algorithms
-type State interface {
-
-	// For and input action, the function generates a new state with
-	// the new action included
-	ApplyAction(action Action) State
-
-	// Returns the list of actions applied to the state to research the
-	// actual state
-	GetPartialSolution() []Action
-
-	// Returns the sum of all the costs for all the actions applied
-	// to the actual state
-	GetSolutionCost() float64
-
-	// For a given action, the funcion determinate if is possible to
-	// apply that action to the state
-	//	isValidAction(action Action) bool
-
-	// Method that generate a list of all the possible applicable actions
-	// for the current state
-	GetApplicableActions() []Action
-
-	// Returns if the actual state is a solution state
-	IsSolution() bool
-
-	// Compare two states
-	Equal(second State) bool
-
-	// Add the action to the current state
-	//	addActionToSolution(action Action)
-
-	// Returns the depth in the search tree of the current state
-	GetStateLevel() int
-
-	// the heuristic evaluation for a state
-	Heuristic() float64
-
-	// Default string representation (mainly for debug)
-	String() string
-}
-
-// Action interface to represent the cost of an action
-type Action interface {
-	// represents the float cost for an Action
-	Cost() float64
-}
-
-// Statistics information about the state space explored by the search
-type Statistics struct {
-	NodesExplored   int
-	NodesDuplicated int
-	MaxDepth        int
-	Solutions       int
-}
-
-// Basic string default representation for the Statistics
-func (stats Statistics) String() string {
-
-	return "[" +
-		"NodesExplored: " + strconv.Itoa(stats.NodesExplored) + ", " +
-		"NodesDuplicated: " + strconv.Itoa(stats.NodesDuplicated) + ", " +
-		"MaxDepth: " + strconv.Itoa(stats.MaxDepth) + ", " +
-		"Solutions: " + strconv.Itoa(stats.Solutions) +
-		"]"
-
-}
 
 // Search mechanism
 
