@@ -31,6 +31,6 @@ jobs:
     - name: Code coverage to Coveralls
       run: |
         go get golang.org/x/tools/cmd/cover
-        go get github.com/mattn/goveralls
+        go install github.com/mattn/goveralls
         goveralls -service=github
 
