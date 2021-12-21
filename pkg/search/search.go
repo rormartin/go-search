@@ -1,6 +1,22 @@
-package gosearch
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 
-import "strconv"
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+package search
+
+import (
+	"github.com/rormartin/gosearch/internal/pkg/openlist"
+	"strconv"
+)
 
 // State is a basic state represtation for search algorithms
 type State interface {
@@ -37,6 +53,9 @@ type State interface {
 	// Returns the depth in the search tree of the current state
 	GetStateLevel() int
 
+	// the heuristic evaluation for a state
+	Heuristic() float64
+
 	// Default string representation (mainly for debug)
 	String() string
 }
@@ -45,12 +64,6 @@ type State interface {
 type Action interface {
 	// represents the float cost for an Action
 	Cost() float64
-}
-
-// Heuristic interface to represente the heuristic value for a state
-type Heuristic interface {
-	// the heuristic evaluation for a state
-	Heuristic() float64
 }
 
 // Statistics information about the state space explored by the search
@@ -85,7 +98,7 @@ func (stats Statistics) String() string {
 // maximum depth explored.
 func SearchBreadthFirst(initialState State) ([]Action, Statistics) {
 
-	return findFirstSolution(initialState, new(queue))
+	return findFirstSolution(initialState, new(openlist.Queue[State]))
 }
 
 // SearchDepthFirst is a basic search without domain information Depth
@@ -97,7 +110,7 @@ func SearchBreadthFirst(initialState State) ([]Action, Statistics) {
 // and the maximum depth explored.
 func SearchDepthFirst(initialState State) ([]Action, Statistics) {
 
-	return findFirstSolution(initialState, new(stack))
+	return findFirstSolution(initialState, new(openlist.Stack[State]))
 }
 
 // SearchIterativeDepth is a basic search without domain information
@@ -120,7 +133,7 @@ func SearchIterativeDepth(initial State) ([]Action, Statistics) {
 
 	for len(solution) == 0 {
 		solution, maxDepth, statistics =
-			findFirstSolutionAux(initial, new(stack), depth)
+			findFirstSolutionAux(initial, new(openlist.Stack[State]), depth)
 		// aggregate stats
 		stats.NodesExplored += statistics.NodesExplored
 		stats.NodesDuplicated += statistics.NodesDuplicated
@@ -145,5 +158,5 @@ func SearchIterativeDepth(initial State) ([]Action, Statistics) {
 // duplicate nodes and the maximum depth explored.
 func SearchAstar(initialState State) ([]Action, Statistics) {
 
-	return findFirstSolutionAstar(initialState, new(floatPriorityList))
+	return findFirstSolutionAstar(initialState, new(openlist.FloatPriorityList[State]))
 }
